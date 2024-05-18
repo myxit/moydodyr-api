@@ -1,7 +1,7 @@
 import logging
-from booking import Booking
 from elssession import ELSSession
 from config import get_settings
+from booking_parser import parse_bookings
 
 logging.basicConfig( level= logging.DEBUG)
 logger = logging.getLogger()
@@ -40,9 +40,7 @@ def main_run():
         # print(f"1 inputs data: {inputs_data}")
         print(f"2 laundry bookings raw_data: {raw_data}")
         print(f"3 raw weekdays data: {weekdays_cells_data}")
-        bookings = list(
-            map(lambda tuple_item: Booking.make_of(*tuple_item), raw_data)
-        )
+        bookings = parse_bookings(raw_data, weekdays_cells_data)
         # for (element_name, element_onclick_str, element_title_str) in raw_data:
         #     Booking.make_of(element_name, element_onclick_str, element_title_str)
         # logger.debug("Parsed bookings[]: %s", bookings)
