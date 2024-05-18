@@ -20,8 +20,9 @@ Packages managed by the `poetry` package manager. Run `poetry install` in the pr
  - [-] /api/bookings resource:
     - GET /api/bookings returns JSON occupied bookings
     - GET /api/bookings returns JSON all bookings
+    - POST /api/bookings
+    - DELETE /api/bookings
  - [ ] Authentication 
 ### Good to have
-- [X] login
-- [ ] cancelling bookings
-- [ ] continuos runner
+ - [] poller daemon
+ - [] SSE
