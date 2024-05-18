@@ -37,11 +37,17 @@ def main_run():
         
         logger.info(f"5. Requesting Laundry 'ELSSession.LAUNDRY_3' bookings")
         inputs_data, raw_data, weekdays_cells_data = session.goto_laundry_bookings(inputs_data, ELSSession.LAUNDRY_3)
-        print(f"1 inputs data: {inputs_data}")
-        print(f"2 booking data: {raw_data}")
+        # print(f"1 inputs data: {inputs_data}")
+        print(f"2 laundry bookings raw_data: {raw_data}")
         print(f"3 raw weekdays data: {weekdays_cells_data}")
-        for (element_name, element_onclick_str, element_title_str) in raw_data:
-            Booking.make_of(element_name, element_onclick_str, element_title_str)
+        bookings = list(
+            map(lambda tuple_item: Booking.make_of(*tuple_item), raw_data)
+        )
+        # for (element_name, element_onclick_str, element_title_str) in raw_data:
+        #     Booking.make_of(element_name, element_onclick_str, element_title_str)
+        # logger.debug("Parsed bookings[]: %s", bookings)
+        print("4. parsed bookings data")
+        print(' '.join(map(repr, bookings)))
 
     except Exception as ex:
         return False, "Exception: " + str(ex)
