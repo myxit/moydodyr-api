@@ -414,6 +414,22 @@ files = [
 ]
 
 [[package]]
+name = "testfixtures"
+version = "8.2.0"
+description = "A collection of helpers and mock objects for unit tests and doc tests."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "testfixtures-8.2.0-py3-none-any.whl", hash = "sha256:2896b81ece2e30356baf8d76931a7bf4b8f0d58a707ea120dd5d021b20e7d5af"},
+    {file = "testfixtures-8.2.0.tar.gz", hash = "sha256:ef43b657134c87e8a3044f4b02a32ae2ebddf44b2b97bc7989a20116403988ee"},
+]
+
+[package.extras]
+build = ["setuptools-git", "twine", "wheel"]
+docs = ["django", "furo", "sphinx", "sybil (>=6)", "twisted"]
+test = ["django", "mypy", "pytest (>=7.1)", "pytest-cov", "pytest-django", "sybil (>=6)", "twisted"]
+
+[[package]]
 name = "typing-extensions"
 version = "4.11.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -443,5 +459,5 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.12"
-content-hash = "7221b5d19700574915ff0f2b2ebf22a822e5b03b26960a474cb892adba2035ce"
+python-versions = "^3.11.4"
+content-hash = "c32c566bbd946b75d37d0d16b06b43a6f1d67acde92e1daaf44016da291b8929"
