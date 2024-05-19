@@ -1,6 +1,6 @@
 from datetime import date
 import re
-from moydodyr_api.booking import Booking
+from moydodyr_api.booking import Booking, AvailableLandries
 
 # Define the regular expression pattern
 pattern_element_onclick_str = r"'(BookPass\d,\d,\d,)','(\d,\d,\d,)'"
@@ -70,11 +70,11 @@ def parse_bookings(raw_data, weekdays_raw_data):
     
     return bookings
 
-def parse_booking(element_name: str, element_onclick_str: str, element_title_str: str, on_date: date):
+def parse_booking(laundry_id: AvailableLandries, element_name: str, element_onclick_str: str, element_title_str: str, on_date: date):
     (is_ok, event_target, event_argument) = _parse_target_arguments(element_onclick_str)
     if not is_ok:
         raise ParserException(f"Could not parse target aguments for element='{element_name}',string='{element_onclick_str}'")
     
     (is_ok, time_from, time_to, is_available) = _parse_timerange_availablity(element_title_str)
 
-    return Booking(element_name, event_target, event_argument, on_date, time_from, time_to, is_available)
+    return Booking(laundry_id, element_name, event_target, event_argument, on_date, time_from, time_to, is_available)

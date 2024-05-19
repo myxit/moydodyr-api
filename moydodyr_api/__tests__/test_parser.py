@@ -1,6 +1,6 @@
 from datetime import date
 from ..booking_parser import parse_booking, parse_bookings 
-from ..booking import Booking
+from ..booking import AvailableLandries, Booking
 from testfixtures import compare
 import copy
 
@@ -8,19 +8,19 @@ raw_available = ('ctl00$ContentPlaceHolder1$6,5,1,', "javascript:__doPostBack('B
 raw_not_available = ('ctl00$ContentPlaceHolder1$0,1,1,', "javascript:__doPostBack('BookPass0,1,1,','0,1,1,');", '07:00-10:00 (Ej bokningsbar)')
 
 today = date.today()
-booking_available = Booking('ctl00$ContentPlaceHolder1$6,5,1,', "BookPass6,5,1,", "6,5,1,", today, '19:00', '23:00', True)
-booking_na = Booking('ctl00$ContentPlaceHolder1$0,1,1,', "BookPass0,1,1,", "0,1,1,", today, '07:00', '10:00', False)
+booking_available = Booking(AvailableLandries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$6,5,1,', "BookPass6,5,1,", "6,5,1,", today, '19:00', '23:00', True)
+booking_na = Booking(AvailableLandries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$0,1,1,', "BookPass0,1,1,", "0,1,1,", today, '07:00', '10:00', False)
 
 def test_it_can_parse_available_slot():    
     compare(
         booking_available,
-        parse_booking(*raw_available, today)
+        parse_booking(AvailableLandries.LAUNDRY_3, *raw_available, today)
     )
 
 def test_it_can_parse_unavailable_slot():
     compare(
         booking_na,
-        parse_booking(*raw_not_available, today)
+        parse_booking(AvailableLandries.LAUNDRY_3, *raw_not_available, today)
     )
 
 def test_parse_bookings_ok():
