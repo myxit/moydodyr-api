@@ -1,6 +1,6 @@
 from datetime import date
 import re
-from moydodyr_api.booking import Booking, AvailableLandries
+from moydodyr_api.booking import Booking, AvailableLaundries
 
 # Define the regular expression pattern
 pattern_element_onclick_str = r"'(BookPass\d,\d,\d,)','(\d,\d,\d,)'"
@@ -12,6 +12,10 @@ class ParserException(Exception):
 
 
 def _parse_target_arguments(input_string: str):
+    """Extracts values from HTML attributes for future usage as __EVENTTARGET, __EVENTARGUMENT 
+     Example: input "javascript:__doPostBack('BookPass6,5,1,','6,5,1,');"
+     Expected: (True, "BookPass6,5,1,", "6,5,1,")
+    """
     match = re.search(pattern_element_onclick_str, input_string)
 
     # Check if a match is found
@@ -54,7 +58,7 @@ def _weekdays_as_date(weekdays_raw_data):
     
     return result
 
-def parse_bookings(raw_data, weekdays_raw_data):
+def parse_bookings(laundry_id: AvailableLaundries, raw_data, weekdays_raw_data: list[str]):
     DAYS_COUNT = 7
     # Sanity check: weekdays len always 7
     if len(weekdays_raw_data) != DAYS_COUNT:
@@ -65,16 +69,17 @@ def parse_bookings(raw_data, weekdays_raw_data):
 
     range_days = _weekdays_as_date(weekdays_raw_data)
     bookings = list(
-            map(lambda tuple2: parse_booking(*tuple2[1], range_days[tuple2[0] % DAYS_COUNT]), enumerate(raw_data)) # type: ignore
+            map(lambda tuple2: parse_booking(laundry_id, range_days[tuple2[0] % DAYS_COUNT], tuple2[1]), enumerate(raw_data)) # type: ignore
         )
     
     return bookings
 
-def parse_booking(laundry_id: AvailableLandries, element_name: str, element_onclick_str: str, element_title_str: str, on_date: date):
+def parse_booking(laundry_id, on_date: date, raw_data: tuple[str, str, str]):
+    (element_name, element_onclick_str, element_title_str) = raw_data
     (is_ok, event_target, event_argument) = _parse_target_arguments(element_onclick_str)
     if not is_ok:
         raise ParserException(f"Could not parse target aguments for element='{element_name}',string='{element_onclick_str}'")
     
     (is_ok, time_from, time_to, is_available) = _parse_timerange_availablity(element_title_str)
 
-    return Booking(laundry_id, element_name, event_target, event_argument, on_date, time_from, time_to, is_available)
+    return Booking(laundry_id, element_name, event_target, event_argument, on_date, time_from, time_to, is_available) # type: ignore

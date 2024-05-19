@@ -1,27 +1,37 @@
 from datetime import date
-from enum import Enum
 
-class AvailableLandries(Enum):
-    LAUNDRY_3 = 3
-    LAUNDRY_4 = 4
+from moydodyr_api.els.types import AvailableLaundries
+
 
 class Booking:
-    def __init__(self, laundry_id: AvailableLandries, element_name, event_target, event_argument, date: date, time_from, time_to, is_available):
-        self.id = ':'.join([laundry_id.name, date.isoformat(), time_from + '-' + time_to])
-        self.element_name = element_name
-        self.event_target = event_target
-        self.event_argument = event_argument
-        self.date = date
+    def __init__(self, laundry_id: AvailableLaundries, element_name: str, event_target: str, event_argument: str, date: date, time_from, time_to, is_available: bool):
+        self._id = self.make_id(laundry_id.name, date, time_from, time_to)
+        self._date = date
+        self.form_data = {
+            '__EVENTTARGET': event_target,
+            '__EVENTARGUMENT': event_argument,
+            element_name: None,
+        }
         self.time_from = time_from
         self.time_to = time_to
         self.is_available = is_available
+    @staticmethod
+    def make_id(laundry_id: str, date: date, time_from: str, time_to: str) -> str:
+        return ':'.join([laundry_id, date.isoformat(), time_from + '-' + time_to])
     
+    @property
+    def id(self):
+        return self._id
+    
+    @property
+    def date(self):
+        return self._date
+
     def __repr__(self) -> str:
         return f"""
 Booking(
-    element_name={self.element_name}, 
-    event_target={self.event_target},
-    event_argument={self.event_argument},
+    id={self.id},
+    form_data=<...missed...>,
     date={self.date},
     time_from={self.time_from},
     time_to={self.time_to},

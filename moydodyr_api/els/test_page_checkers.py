@@ -1,6 +1,6 @@
 from testfixtures import compare
 
-from moydodyr_api.page_checkers import is_booking_confirmation_page, is_login_page
+from moydodyr_api.els.page_checkers import is_booking_confirmation_page, is_login_page
 
 def test_is_login_page():
     CONTENT_WITH_FORGOT_PASSWORD_LINK = """<form><a id="ctl00_ContentPlaceHolder1_LinkButtonRecoverPassword" href="javascript:__doPostBack(\'ctl00$ContentPlaceHolder1$LinkButtonRecoverPassword\',\'\')">Glömt lösenord</a></form>"""

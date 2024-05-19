@@ -12,11 +12,12 @@ python-dotenv = "^1.0.1"
 pydantic = "^2.7.1"
 pydantic-settings = "^2.2.1"
 beautifulsoup4 = "^4.12.3"
-testfixtures = "^8.2.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.2.0"
 pytest-mock = "*"
+testfixtures = "^8.2.0"
+freezegun = "^1.5.1"
 
 [build-system]
 requires = ["poetry-core"]
