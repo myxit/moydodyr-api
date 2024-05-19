@@ -11,13 +11,19 @@ A bit complex setup:
  - Packages managed by the `poetry` package manager. Run `poetry install` in the project directory root.
 
 ## Plan
-### API
- - [-] /api/bookings resource:
+0. "Fasade"
+ - [X] authentication
+ - [X] booknigs scraper
+ - [X] bookings parser
+ - [-] booking reservation
+ - [] booking cancellation 
+ 
+1. JSON API
     - GET /api/bookings returns JSON occupied bookings
     - GET /api/bookings returns JSON all bookings
     - POST /api/bookings
     - DELETE /api/bookings
  - [ ] Authentication 
-### Good to have
+2. Good to have
  - [] poller daemon
  - [] SSE
