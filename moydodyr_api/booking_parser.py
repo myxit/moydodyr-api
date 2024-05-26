@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 import re
 from moydodyr_api.booking import Booking, AvailableLaundries
 
@@ -49,12 +49,14 @@ def _weekdays_as_date(weekdays_raw_data):
         raise ValueError("No day number found in the first item")
     
     start_day = int(match.group())
-    result = [date(today.year, today.month, start_day)]
+    start_date = date(today.year, today.month, start_day)
+    result = [start_date]
     
     # Sequentially add remaining dates
     for i in range(1, len(weekdays_raw_data)):
-        next_day = start_day + i
-        result.append(date(today.year, today.month, next_day))
+        start_date_inc = timedelta(days=i)
+        next_day = start_date + start_date_inc
+        result.append(next_day)
     
     return result
 

@@ -36,3 +36,20 @@ def test_parse_bookings_ok():
         booking._date = date_to_set
 
     compare(bookings, parse_bookings(AvailableLaundries.LAUNDRY_3, one_week_bookings_raw, raw_dates))
+
+@freeze_time("2024-05-26")
+def test_parse_month_break_ok():
+    START_DAY = 13
+    raw_dates = ['Sön26', 'Mån27', 'Tis28', 'Ons29', 'Tor30', 'Fre31', 'Lör1']
+    one_week_bookings_raw = [raw_available, raw_not_available, raw_not_available, raw_available, raw_available, raw_available, raw_not_available]
+    bookings = [
+        Booking(AvailableLaundries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$6,5,1,', "BookPass6,5,1,", "6,5,1,", date(2024, 5, 26), '19:00', '23:00', True), 
+        Booking(AvailableLaundries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$0,1,1,', "BookPass0,1,1,", "0,1,1,", date(2024, 5, 27), '07:00', '10:00', False),
+        Booking(AvailableLaundries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$0,1,1,', "BookPass0,1,1,", "0,1,1,", date(2024, 5, 28), '07:00', '10:00', False),
+        Booking(AvailableLaundries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$6,5,1,', "BookPass6,5,1,", "6,5,1,", date(2024, 5, 29), '19:00', '23:00', True),
+        Booking(AvailableLaundries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$6,5,1,', "BookPass6,5,1,", "6,5,1,", date(2024, 5, 30), '19:00', '23:00', True), 
+        Booking(AvailableLaundries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$6,5,1,', "BookPass6,5,1,", "6,5,1,", date(2024, 5, 31), '19:00', '23:00', True), 
+        Booking(AvailableLaundries.LAUNDRY_3, 'ctl00$ContentPlaceHolder1$0,1,1,', "BookPass0,1,1,", "0,1,1,", date(2024, 6, 1), '07:00', '10:00', False),
+    ]
+
+    compare(bookings, parse_bookings(AvailableLaundries.LAUNDRY_3, one_week_bookings_raw, raw_dates))
