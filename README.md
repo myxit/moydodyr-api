@@ -11,9 +11,9 @@ A bit complex setup:
  - Packages managed by the `poetry` package manager. Run `poetry install` in the project directory root.
 
 ## Plan
-0. "Fasade"
+0. "Facade"
  - [X] authentication
- - [X] booknigs scraper
+ - [X] bookings scraper
  - [X] bookings parser
  - [-] booking reservation
  - [ ] booking cancellation 

@@ -35,15 +35,8 @@ def main_run():
             raise Exception("No free bookings available for selected laundry")
         
         logger.info(f"7. selecting booking : {FIRST_FREE_BOOKING}")
-        # logger.debug(bookings[SELECTED_BOOKING_IDX])
         els.laundry_booking_fetch(session, FIRST_FREE_BOOKING.form_data)
         els.laundry_booking_submit(session)
-
-        # els.select_booking(session, bookings[SELECTED_BOOKING_IDX].form_data)
-        # els.confirm_booking(session)
-
-    
-
     except Exception as ex:
         return False, "Exception: " + str(ex)
 
