@@ -1,6 +1,9 @@
+import logging
 from moydodyr_api.els import page_checkers
 from moydodyr_api.els.elssession import ELSSession
   
+logger = logging.getLogger()
+
 request_payload = {
     # Custom value
     "__EVENTTARGET": None,
@@ -19,11 +22,14 @@ request_payload = {
 url = '/Booking/BookingCalendar.aspx'
 
 def run(session: ELSSession, value_specific_payload: dict[str, str]):
-    """
+    """Preselects a booking
     Tip: must be called after goto_laundries_list(), goto_laundry_bookings()
     """
     request_data = request_payload | value_specific_payload
     response = session.post(url, request_data)
-    response.raise_for_status()
+    if response.status_code not in [200, 302]:
+        logger.debug(response.content.decode())
+        raise Exception(f"{response.status_code} for url: {response.request.url}")
+    
     if not page_checkers.is_booking_confirmation_page(response.content):
         raise Exception("Not authenticated")

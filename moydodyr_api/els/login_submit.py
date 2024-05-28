@@ -2,12 +2,12 @@ from bs4 import BeautifulSoup
 from moydodyr_api.els.elssession import ELSSession
   
 
-def run(session: ELSSession, state_form_data: dict[str, str], username: str, password: str):
+def run(session: ELSSession, username: str, password: str):
     """Posts login data
 
     Returns: state
     """
-    request_data = state_form_data | {'ctl00$ContentPlaceHolder1$tbUsername': username, 'ctl00$ContentPlaceHolder1$tbPassword': password}
+    request_data = {'ctl00$ContentPlaceHolder1$tbUsername': username, 'ctl00$ContentPlaceHolder1$tbPassword': password}
     response = session.post("/Default.aspx", request_data)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, 'html.parser')
