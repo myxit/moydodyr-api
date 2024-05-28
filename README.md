@@ -16,7 +16,7 @@ A bit complex setup:
  - [X] booknigs scraper
  - [X] bookings parser
  - [-] booking reservation
- - [] booking cancellation 
+ - [ ] booking cancellation 
  
 1. JSON API
     - GET /api/bookings returns JSON occupied bookings
@@ -25,5 +25,5 @@ A bit complex setup:
     - DELETE /api/bookings
  - [ ] Authentication 
 2. Good to have
- - [] poller daemon
- - [] SSE
+ - [ ] poller daemon
+ - [ ] SSE

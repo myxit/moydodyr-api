@@ -41,7 +41,7 @@ class ELSSession(Session):
         hidden_inputs = soup.find_all('input', {'type': 'hidden'})
         if not len(hidden_inputs):
             logger.warn(f"no hidden_inputs found for {method} {joined_url}")
-            # self.view_related_inputs = {} ?????
+            # TODO: need reset self.view_related_inputs = {} ?????
         else:
             inputs_kv = {tag.get('name'): tag.get('value', '') for tag in hidden_inputs}
             self.view_related_inputs = ELSSession._extract_view_state_related(inputs_kv)
