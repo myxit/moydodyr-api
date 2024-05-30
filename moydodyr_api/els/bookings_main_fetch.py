@@ -1,8 +1,10 @@
+from typing_extensions import deprecated
 from bs4 import BeautifulSoup
 from moydodyr_api.els.elssession import ELSSession
 
 url = '/Booking/BookingMain.aspx'
 
+@deprecated("Not ready yet. Pause using it for the moment")
 def run(session: ELSSession):
     """a.k.a. "Min Sida"
     Tip: use only to get my bookings

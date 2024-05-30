@@ -7,7 +7,13 @@ def run(session: ELSSession, username: str, password: str):
 
     Returns: state
     """
-    request_data = {'ctl00$ContentPlaceHolder1$tbUsername': username, 'ctl00$ContentPlaceHolder1$tbPassword': password}
+    request_data = {
+        '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$btOK',
+        '__EVENTARGUMENT': None,
+        'ctl00$MessageType': 'ERROR',
+        'ctl00$ContentPlaceHolder1$tbUsername': username, 
+        'ctl00$ContentPlaceHolder1$tbPassword': password
+    }
     response = session.post("/Default.aspx", request_data)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, 'html.parser')

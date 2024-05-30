@@ -22,21 +22,32 @@ def main_run():
         
         logger.info("4. Fetching Laundry List")
         els.laundries_list_fetch(session)
-        
-        logger.info(f"5. Requesting Laundry 'ELSSession.LAUNDRY_3' bookings")
-        raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, AvailableLaundries.LAUNDRY_3)
+        # ### LOADING #Laundry3
+        # logger.info(f"5. Requesting Laundry 'ELSSession.LAUNDRY_3' bookings")
+        # raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, AvailableLaundries.LAUNDRY_3)
 
-        bookings = parse_bookings(AvailableLaundries.LAUNDRY_3, raw_data, weekdays_cells_data)
-        logger.info(f"6. total parsed bookings: {len(bookings)}")
+        # bookings = parse_bookings(AvailableLaundries.LAUNDRY_3, raw_data, weekdays_cells_data)
+        # logger.info(f"6. total parsed bookings: {len(bookings)}")
         
         is_available = lambda booking: booking.is_available
-        FIRST_FREE_BOOKING = next((booking for booking in bookings if is_available(booking)), None)
-        if not FIRST_FREE_BOOKING:
-            raise Exception("No free bookings available for selected laundry")
+        # active_bookings = list(filter(is_available, bookings))
+        # logger.info(f"Active bookings for {AvailableLaundries.LAUNDRY_3} is {len(active_bookings)}")
         
-        logger.info(f"7. selecting booking : {FIRST_FREE_BOOKING}")
-        els.laundry_booking_fetch(session, FIRST_FREE_BOOKING.form_data)
-        els.laundry_booking_submit(session)
+       
+        raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, AvailableLaundries.LAUNDRY_4)
+        bookings = parse_bookings(AvailableLaundries.LAUNDRY_4, raw_data, weekdays_cells_data)
+        logger.info(f"6. total parsed bookings: {len(bookings)}")
+        active_bookings = list(filter(is_available, bookings))
+        logger.info(f"Active bookings for {AvailableLaundries.LAUNDRY_4} is {len(active_bookings)}")
+        
+        
+        # FIRST_FREE_BOOKING = next((booking for booking in bookings if is_available(booking)), None)
+        # if not FIRST_FREE_BOOKING:
+        #     raise Exception("No free bookings available for selected laundry")
+        
+        # logger.info(f"7. selecting booking : {FIRST_FREE_BOOKING}")
+        # els.laundry_booking_fetch(session, FIRST_FREE_BOOKING.form_data)
+        # els.laundry_booking_submit(session)
     except Exception as ex:
         return False, "Exception: " + str(ex)
 
