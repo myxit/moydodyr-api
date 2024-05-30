@@ -21,3 +21,4 @@ erl_crash.dump
 phoenix-*.ez
 **/__pycache__/*
 .env.local
+my_database.db

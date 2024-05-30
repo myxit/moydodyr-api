@@ -4,7 +4,7 @@ from moydodyr_api.els.types import AvailableLaundries
 
 
 class Booking:
-    def __init__(self, laundry_id: AvailableLaundries, element_name: str, event_target: str, event_argument: str, date: date, time_from, time_to, is_available: bool):
+    def __init__(self, laundry_id: AvailableLaundries, element_name: str, event_target: str, event_argument: str, date: date, time_from: str, time_to: str, is_available: bool):
         self._id = self.make_id(laundry_id.name, date, time_from, time_to)
         self._date = date
         self.form_data = {

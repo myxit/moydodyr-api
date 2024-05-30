@@ -11,19 +11,30 @@ A bit complex setup:
  - Packages managed by the `poetry` package manager. Run `poetry install` in the project directory root.
 
 ## Plan
-0. "Facade"
+0. Poller
  - [X] authentication
  - [X] bookings scraper
- - [X] bookings parser
- - [-] booking reservation
- - [ ] booking cancellation 
+ - [X] save parsed bookings in the storage 
+ - [-] bookings parser
+    - [ ] walkthrough the following laundry screens
+    - [ ] collect bookings for the all available laundries
+ - [ ] booking reservation
+ - [ ] booking cancellation
+ - [ ] my bookings
+
+1. Intermediate storage (sqlite)
+ - [X] Setup
+ - [ ] rethink on structure: fixed objects vs event log
+ - [ ] A few user stories:
+    - user looks for available nearest bookings
+    - same as above with preferred laundry nr
+    - same as previous with preferred time range
  
-1. JSON API
+2. JSON API
     - GET /api/bookings returns JSON occupied bookings
     - GET /api/bookings returns JSON all bookings
     - POST /api/bookings
     - DELETE /api/bookings
  - [ ] Authentication 
 2. Good to have
- - [ ] poller daemon
  - [ ] SSE

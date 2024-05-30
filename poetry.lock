@@ -201,6 +201,16 @@ files = [
 ]
 
 [[package]]
+name = "peewee"
+version = "3.17.5"
+description = "a little orm"
+optional = false
+python-versions = "*"
+files = [
+    {file = "peewee-3.17.5.tar.gz", hash = "sha256:e1b6a64192207fd3ddb4e1188054820f42aef0aadfa749e3981af3c119a76420"},
+]
+
+[[package]]
 name = "pluggy"
 version = "1.5.0"
 description = "plugin and hook calling mechanisms for python"
@@ -499,4 +509,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11.4"
-content-hash = "eecb72937d14ba4ded072d3787b08a96fe2ea8d656262a3bc3d0f0eff04019e9"
+content-hash = "00d88bff3c6862239b010c7857f0c7ac93d9c6002fe8bab91679082b6d47e337"
