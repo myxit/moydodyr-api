@@ -1,5 +1,5 @@
-from enum import Enum
+from enum import IntEnum
 
-class AvailableLaundries(Enum):
+class AvailableLaundries(IntEnum):
     LAUNDRY_3 = 3
     LAUNDRY_4 = 4
