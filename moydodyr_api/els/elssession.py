@@ -30,6 +30,7 @@ class ELSSession(Session):
                     raise ValueError(f"The value for key '{key}' is empty in input_kv")
                 result[key] = value
 
+        logger.debug(f"Parsed view state-related dump: \n {result}")
         return result
 
     def request(self, method, url, *args, **kwargs):
@@ -49,7 +50,7 @@ class ELSSession(Session):
         soup = BeautifulSoup(response.content, 'html.parser')
         hidden_inputs = soup.find_all('input', {'type': 'hidden'})
         if not len(hidden_inputs):
-            logger.warn(f"no hidden_inputs found for {method} {url}")
+            logger.warn(f"Seems error: no hidden_inputs found for {method} {url}")
             # TODO: need reset self.view_related_inputs = {} ?????
         else:
             inputs_kv = {tag.get('name'): tag.get('value', '') for tag in hidden_inputs}

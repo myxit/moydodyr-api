@@ -16,6 +16,14 @@ A bit complex setup:
  - [X] bookings scraper
  - [X] save parsed bookings in the storage 
  - [-] bookings parser
+======
+Last try before fall:
+setup mitmproxy and check how the viewstate data get send to srv
+Problem: "Next page" returns 500
+
+======
+
+
     - [ ] walkthrough the following laundry screens
     - [ ] collect bookings for the all available laundries
  - [ ] booking reservation

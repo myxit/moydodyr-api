@@ -1,4 +1,5 @@
-from datetime import date, datetime, time
+from datetime import date, datetime
+import time
 import logging
 from re import S
 import els
@@ -38,15 +39,32 @@ def main_run():
         is_available = lambda booking: booking.is_available
         # active_bookings = list(filter(is_available, bookings))
         # logger.info(f"Active bookings for {AvailableLaundries.LAUNDRY_3} is {len(active_bookings)}")
-        
-       
-        raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, AvailableLaundries.LAUNDRY_4)
-        bookings = parse_bookings(AvailableLaundries.LAUNDRY_4, raw_data, weekdays_cells_data)
-        # logger.info(f"6. total parsed bookings: {len(bookings)}")
-        active_bookings = list(filter(is_available, bookings))
-        logger.info(f"Active bookings for #{AvailableLaundries.LAUNDRY_4} is {len(active_bookings)} of {len(bookings)}")
-        
-        db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
+        THREAD_SLEEP = 5
+        try:
+            left = 1
+            while left > 0:
+                raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, AvailableLaundries.LAUNDRY_4)
+                bookings = parse_bookings(AvailableLaundries.LAUNDRY_4, raw_data, weekdays_cells_data)
+                # logger.info(f"6. total parsed bookings: {len(bookings)}")
+                active_bookings = list(filter(is_available, bookings))
+                logger.info(f"Active bookings for #{AvailableLaundries.LAUNDRY_4} is {len(active_bookings)} of {len(bookings)}")
+
+                db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
+
+                raw_data, weekdays_cells_data = els.laundry_bookings_fetch_next_page(session)
+                bookings = parse_bookings(AvailableLaundries.LAUNDRY_4, raw_data, weekdays_cells_data)
+                # logger.info(f"6. total parsed bookings: {len(bookings)}")
+                active_bookings = list(filter(is_available, bookings))
+                logger.info(f"Active bookings for #{AvailableLaundries.LAUNDRY_4} is {len(active_bookings)} of {len(bookings)}")
+
+                db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
+                time.sleep(THREAD_SLEEP)
+                if left <= 0:
+                    break
+                else:
+                    left -= 1
+        except KeyboardInterrupt:
+            logger.info("Interrupted")
         
         
         # FIRST_FREE_BOOKING = next((booking for booking in bookings if is_available(booking)), None)
