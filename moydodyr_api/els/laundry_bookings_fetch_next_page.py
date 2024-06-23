@@ -11,8 +11,8 @@ def run(session: ELSSession) -> tuple[list[tuple[str, str, str]], list[str]]:
     Tip: must be called after goto_laundry_bookings(), select_booking() 
     """
     request_data = { 
-        '__EVENTTARGET': None, 
-        '__EVENTARGUMENT': None,
+        '__EVENTTARGET': '', 
+        '__EVENTARGUMENT': '',
         'ctl00$MessageType': 'ERROR',
         'ctl00$ContentPlaceHolder1$btCalendarNext': '>>',
     }

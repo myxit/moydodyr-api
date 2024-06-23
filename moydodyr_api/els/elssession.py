@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from requests import Session
 from urllib.parse import urljoin
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 class ELSSession(Session):
     def __init__(self, base_url: str):

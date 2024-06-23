@@ -6,9 +6,9 @@ logger = logging.getLogger()
   
 request_payload = {
     # Element specific
-    "__EVENTTARGET": None,
+    "__EVENTTARGET": '',
     # Element specific 
-    "__EVENTARGUMENT": None,
+    "__EVENTARGUMENT": '',
     # Element specific
     "__VIEWSTATE": None,
     # "__VIEWSTATEGENERATOR": "BE703319",

@@ -1,6 +1,7 @@
 from datetime import date, datetime
 import time
 import logging
+import logging.config
 from re import S
 import els
 import db
@@ -8,8 +9,10 @@ from config import get_settings
 from booking_parser import parse_bookings
 from moydodyr_api.booking import AvailableLaundries
 
-logging.basicConfig( level= logging.DEBUG)
-logger = logging.getLogger()
+
+logging.config.fileConfig('logger.config', disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
+
 config = get_settings()
 
 def main_run():    

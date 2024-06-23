@@ -2,7 +2,7 @@ import logging
 import peewee
 from datetime import datetime, date, timedelta
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 # Define the SQLite database
 db = peewee.SqliteDatabase('my_database.db')
