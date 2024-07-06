@@ -18,14 +18,11 @@ request_payload = {
     "ctl00$ContentPlaceHolder1$btMaskingruppRandom": "Boka",
 }
 
-url = '/Booking/MachineGroup.aspx'
-
 def run(session: ELSSession):
     """Submits selected booking
     Tip: must be called after laundry_bookings_fetch() 
     """
-    # request_data = request_payload
-    response = session.post(url)
+    response = session.post_back(data = request_payload)
     response.raise_for_status()
     if not page_checkers.is_login_page(response.content):
         logger.warn(response.content.decode())

@@ -69,7 +69,7 @@ class ELSSession():
 
         return response
 
-    def post_back(self, *args, **kwargs):
+    def post_back(self, **kwargs):
         if not self.prev_url:
             raise Exception("No prev_url is set, run get_login() first")
 
@@ -77,7 +77,7 @@ class ELSSession():
         if kwargs:
             logger.debug(f"POST {self.prev_url} payload:\n{kwargs}")
 
-        response = self.session.post(self.prev_url, *args, **kwargs)
+        response = self.session.post(self.prev_url, **kwargs)
         response.raise_for_status()
         if not ELSSession._validate_response(response):
             raise Exception("Response validation error, check logs")

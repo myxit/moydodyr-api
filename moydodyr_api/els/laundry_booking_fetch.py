@@ -19,14 +19,12 @@ request_payload = {
     "ctl00$ContentPlaceHolder1$6,4,1,": None
 }
 
-url = '/Booking/BookingCalendar.aspx'
-
 def run(session: ELSSession, value_specific_payload: dict[str, str]):
     """Preselects a booking
     Tip: must be called after goto_laundries_list(), goto_laundry_bookings()
     """
     request_data = request_payload | value_specific_payload
-    response = session.post(url, request_data)
+    response = session.post_back(data = request_data)
     if response.status_code not in [200, 302]:
         logger.debug(response.content.decode())
         raise Exception(f"{response.status_code} for url: {response.request.url}")

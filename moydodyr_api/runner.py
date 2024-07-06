@@ -8,7 +8,7 @@ import db
 from config import get_settings
 from booking_parser import parse_bookings
 from moydodyr_api.booking import AvailableLaundries
-
+import traceback
 
 logging.config.fileConfig('logger.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
@@ -95,6 +95,7 @@ def main_run():
         # els.laundry_booking_fetch(session, FIRST_FREE_BOOKING.form_data)
         # els.laundry_booking_submit(session)
     except Exception as ex:
+        print(traceback.format_exc())
         return False, "Exception: " + str(ex)
     finally:
         db.disconnect()

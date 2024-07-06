@@ -9,14 +9,12 @@ request_payload = {
     "ctl00$ContentPlaceHolder1$ShowExpand": False,
 }
 
-url = '/Booking/BookingMain.aspx'
-
 def run(session: ELSSession) -> dict[str, str]:
     """Returns "Tvattstuga3/Tvattstuga4" list selection
     Tip: Must be called, before fetching laundry bookings,ie goto_laundry_bookings()
     """
     request_data = request_payload
-    response = session.post_back(request_data)
+    response = session.post_back(data = request_data)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, 'html.parser')
     data = {tag.get('name'): tag.get('value', '') for tag in soup.find_all('input')}

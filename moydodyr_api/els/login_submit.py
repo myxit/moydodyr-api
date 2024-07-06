@@ -14,7 +14,7 @@ def run(session: ELSSession, username: str, password: str):
         'ctl00$ContentPlaceHolder1$tbUsername': username, 
         'ctl00$ContentPlaceHolder1$tbPassword': password
     }
-    response = session.post_back(request_data)
+    response = session.post_back(data = request_data)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, 'html.parser')
     inputs_data = {tag.get('name'): tag.get('value', '') for tag in soup.find_all('input')}

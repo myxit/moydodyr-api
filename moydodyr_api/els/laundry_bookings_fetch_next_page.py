@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from moydodyr_api.els import page_checkers
 from moydodyr_api.els.elssession import ELSSession
 
-url = '/Booking/BookingCalendar.aspx'
 onclick_pattern = re.compile(r"('BookPass\d,\d,\d,'),('\d,\d,\d,')")
 
 def run(session: ELSSession) -> tuple[list[tuple[str, str, str]], list[str]]:
@@ -16,7 +15,7 @@ def run(session: ELSSession) -> tuple[list[tuple[str, str, str]], list[str]]:
         'ctl00$MessageType': 'ERROR',
         'ctl00$ContentPlaceHolder1$btCalendarNext': '>>',
     }
-    response = session.post(url, request_data)
+    response = session.post_back(data = request_data)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, 'html.parser')
     view_state = {tag.get('name'): tag.get('value', '') for tag in soup.find_all('input', {'type': 'hidden'})}

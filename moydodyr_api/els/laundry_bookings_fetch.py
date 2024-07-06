@@ -16,7 +16,6 @@ laundry4_request_payload = {
     'ctl00$MessageType': 'ERROR',
 }
 
-url = '/Booking/Prechoices.aspx'
 onclick_pattern = re.compile(r"('BookPass\d,\d,\d,'),('\d,\d,\d,')")
 
 def run(session: ELSSession, laundry_id: AvailableLaundries) -> tuple[list[tuple[str, str, str]], list[str]]:
@@ -24,7 +23,7 @@ def run(session: ELSSession, laundry_id: AvailableLaundries) -> tuple[list[tuple
     Tip: must be called after goto_laundry_bookings(), select_booking() 
     """
     request_data = laundry3_request_payload if laundry_id == AvailableLaundries.LAUNDRY_3 else laundry4_request_payload
-    response = session.post(url, request_data)
+    response = session.post_back(data = request_data)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, 'html.parser')
     # 2. Sanity check
