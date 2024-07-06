@@ -6,13 +6,13 @@ from .types import AvailableLaundries
 
 laundry3_request_payload = {
     '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$dgForval$ctl02$ctl00',
-    '__EVENTARGUMENT': None,
+    '__EVENTARGUMENT': '',
     'ctl00$MessageType': 'ERROR',
 }
 
 laundry4_request_payload = {
     '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$dgForval$ctl03$ctl00',
-    '__EVENTARGUMENT': None,
+    '__EVENTARGUMENT': '',
     'ctl00$MessageType': 'ERROR',
 }
 

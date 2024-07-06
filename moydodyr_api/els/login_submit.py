@@ -9,12 +9,12 @@ def run(session: ELSSession, username: str, password: str):
     """
     request_data = {
         '__EVENTTARGET': 'ctl00$ContentPlaceHolder1$btOK',
-        '__EVENTARGUMENT': None,
+        '__EVENTARGUMENT': '',
         'ctl00$MessageType': 'ERROR',
         'ctl00$ContentPlaceHolder1$tbUsername': username, 
         'ctl00$ContentPlaceHolder1$tbPassword': password
     }
-    response = session.post("/Default.aspx", request_data)
+    response = session.post_back(request_data)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, 'html.parser')
     inputs_data = {tag.get('name'): tag.get('value', '') for tag in soup.find_all('input')}

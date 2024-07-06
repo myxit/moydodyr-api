@@ -8,8 +8,7 @@ def run(session: ELSSession):
     
     Returns the form data for the next submit_login() request
     """
-    response = session.get("/")
-    response.raise_for_status()
+    response = session.get_login()    
     soup = BeautifulSoup(response.content, 'html.parser')
     if not page_checkers.is_login_page(response.content):
         raise Exception("Response is not login form")
