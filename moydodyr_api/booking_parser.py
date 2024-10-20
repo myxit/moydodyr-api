@@ -60,7 +60,7 @@ def _weekdays_as_date(weekdays_raw_data):
     
     return result
 
-def parse_bookings(laundry_id: AvailableLaundries, raw_data, weekdays_raw_data: list[str]):
+def parse_bookings(laundry_id: AvailableLaundries, raw_data, weekdays_raw_data: list[str]) -> list[Booking]:
     DAYS_COUNT = 7
     # Sanity check: weekdays len always 7
     if len(weekdays_raw_data) != DAYS_COUNT:

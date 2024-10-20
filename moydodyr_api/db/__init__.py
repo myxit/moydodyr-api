@@ -1,3 +1,18 @@
-__all__ = ["Booking", "connect", "disconnect", "create_or_update", "show_near_available"]
+__all__ = [
+    "Booking",
+    "db_init",
+    "disconnect",
+    "create_or_update",
+    "show_near_available",
+    "Snapshot",
+    "insert",
+    "get_last_id",
+]
+from .db import connect, disconnect, db
+from .bookings import Booking, create_or_update, show_near_available
+from .snapshots import Snapshot, insert, get_last_id
 
-from .main import Booking, connect, disconnect, create_or_update, show_near_available
+def db_init():
+    connect()
+    db.create_tables([Booking, Snapshot])
+    

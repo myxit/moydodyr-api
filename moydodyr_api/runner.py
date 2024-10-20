@@ -1,8 +1,6 @@
-from datetime import date, datetime
-import time
+from datetime import date
 import logging
 import logging.config
-from re import S
 import els
 import db
 from config import get_settings
@@ -18,7 +16,8 @@ config = get_settings()
 def main_run():    
     try:
         logger.info("0. Connecting to db")
-        db.connect()
+        db.db_init()
+        
         logger.info('[OK]')
 
         session = els.ELSSession(config.els_url)
@@ -46,16 +45,34 @@ def main_run():
         try:
             left = 1
             while left > 0:
+                last_snapshot_id = db.get_last_id()
+                snapshot_id = 1 if last_snapshot_id is None else last_snapshot_id
                 ## Laundry 3
                 fetching_for = AvailableLaundries.LAUNDRY_3
                 raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, fetching_for)
                 bookings = parse_bookings(fetching_for, raw_data, weekdays_cells_data)
+                #### Snapshots
+                for booking in bookings:
+                    laundry_id = booking.id.split(":")[0]
+                    time_slot_id = "-".join([booking.time_from, booking.time_to])
+                    booked_by = 1 if booking.is_available else 0
+                    db.insert(
+                        snapshot_id, laundry_id, booking.date, time_slot_id, booked_by
+                    ) 
+                
                 active_bookings = list(filter(is_available, bookings))
                 logger.info(f"5. Active bookings for #{fetching_for} is {len(active_bookings)} of {len(bookings)}")
                 db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
                 #### Next 7 days bookings
                 raw_data, weekdays_cells_data = els.laundry_bookings_fetch_next_page(session)
                 bookings = parse_bookings(fetching_for, raw_data, weekdays_cells_data)
+                #### Snapshots
+                for booking in bookings:
+                    laundry_id = booking.id.split(":")[0]
+                    time_slot_id = "-".join([booking.time_from, booking.time_to])
+                    booked_by = 1 if booking.is_available else 0
+                    db.insert(snapshot_id, laundry_id, booking.date, time_slot_id, booked_by)
+                    
                 active_bookings = list(filter(is_available, bookings))
                 logger.info(f"6. Active bookings for #{fetching_for} is {len(active_bookings)} of {len(bookings)}")
                 db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
