@@ -1,6 +1,6 @@
 import logging
 import peewee
-from datetime import datetime, date
+from datetime import datetime
 from .db import BaseModel
 
 logger = logging.getLogger(__name__)

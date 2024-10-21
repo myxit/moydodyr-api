@@ -1,7 +1,6 @@
 import logging
 from bs4 import BeautifulSoup
 from requests import Session
-from urllib.parse import urljoin
 
 logger = logging.getLogger(__name__)
 
@@ -36,15 +35,21 @@ class ELSSession():
 
     @staticmethod
     def _validate_response(response):
-        if not response.status_code in [200, 302]:
-            logger.warn(f"Unexpected status_code for {method} {url} ({response.status_code})")
+        if response.status_code not in [200, 302]:
+            request = response.request
+            logger.warn(
+                f"Unexpected status_code for {request.method} {request.url} ({response.status_code})"
+            )
             logger.debug(f"Body dump: \n {response.content.decode('utf-8')}")
             return False
         
         soup = BeautifulSoup(response.content, 'html.parser')
         hidden_inputs = soup.find_all('input', {'type': 'hidden'})
         if not len(hidden_inputs):
-            logger.warn(f"Seems error: no hidden_inputs found for {method} {url}")
+            request = response.request
+            logger.warn(
+                f"Seems error: no hidden_inputs found for {request.method} {request.url}"
+            )
             # TODO: need reset self.view_related_inputs = {} ?????
             return False
     
@@ -58,7 +63,8 @@ class ELSSession():
         soup = BeautifulSoup(response.content, 'html.parser')
         hidden_inputs = soup.find_all('input', {'type': 'hidden'})
         if not len(hidden_inputs):
-            logger.warn(f"Seems error: no hidden_inputs found for GET {url}")
+            request = response.request
+            logger.warn(f"Seems error: no hidden_inputs found for GET {request.url}")
             # TODO: need reset self.view_related_inputs = {} ?????
         else:
             inputs_kv = {tag.get('name'): tag.get('value', '') for tag in hidden_inputs}

@@ -1,4 +1,3 @@
-from datetime import date
 import logging
 import logging.config
 import els
@@ -27,28 +26,21 @@ def main_run():
         els.login_fetch(session)
         
         logger.info("3. posting credentials")
-        els.login_submit(session, config.els_username, config.els_password)
+        els.login_submit(session, config.els_username, config.els_password)        
         
-        logger.info("4. Fetching Laundry List")
-        els.laundries_list_fetch(session)
-        # ### LOADING #Laundry3
-        # logger.info(f"5. Requesting Laundry 'ELSSession.LAUNDRY_3' bookings")
-        # raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, AvailableLaundries.LAUNDRY_3)
-
-        # bookings = parse_bookings(AvailableLaundries.LAUNDRY_3, raw_data, weekdays_cells_data)
-        # logger.info(f"6. total parsed bookings: {len(bookings)}")
+        def is_available(booking):
+            return booking.is_available
         
-        is_available = lambda booking: booking.is_available
-        # active_bookings = list(filter(is_available, bookings))
-        # logger.info(f"Active bookings for {AvailableLaundries.LAUNDRY_3} is {len(active_bookings)}")
-        THREAD_SLEEP = 5
         try:
-            left = 1
-            while left > 0:
-                last_snapshot_id = db.get_last_id()
-                snapshot_id = 1 if last_snapshot_id is None else last_snapshot_id
-                ## Laundry 3
-                fetching_for = AvailableLaundries.LAUNDRY_3
+            prev_snapshot_id = db.get_last_id()
+            snapshot_id = 1 if prev_snapshot_id is None else prev_snapshot_id + 1
+            logger.info(f"4. Starting snapshot snapshot_id#{snapshot_id}")
+        
+            for fetching_for in [AvailableLaundries.LAUNDRY_3, AvailableLaundries.LAUNDRY_4]:
+                logger.info("4. Fetching Laundry List")
+                els.laundries_list_fetch(session)
+                
+                logger.info(f"pointcut=[START] Start fetching booking for #{fetching_for}")
                 raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, fetching_for)
                 bookings = parse_bookings(fetching_for, raw_data, weekdays_cells_data)
                 #### Snapshots
@@ -61,8 +53,8 @@ def main_run():
                     ) 
                 
                 active_bookings = list(filter(is_available, bookings))
-                logger.info(f"5. Active bookings for #{fetching_for} is {len(active_bookings)} of {len(bookings)}")
-                db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
+                
+                # db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
                 #### Next 7 days bookings
                 raw_data, weekdays_cells_data = els.laundry_bookings_fetch_next_page(session)
                 bookings = parse_bookings(fetching_for, raw_data, weekdays_cells_data)
@@ -74,32 +66,8 @@ def main_run():
                     db.insert(snapshot_id, laundry_id, booking.date, time_slot_id, booked_by)
                     
                 active_bookings = list(filter(is_available, bookings))
-                logger.info(f"6. Active bookings for #{fetching_for} is {len(active_bookings)} of {len(bookings)}")
-                db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
-
-                # ## Switching Laundry
-                # fetching_for = AvailableLaundries.LAUNDRY_4
-                # logger.info("7. Fetching Laundry List before switch on {fetching_for}")
-                # els.laundries_list_fetch(session)
-                # ## Laundry 4
-                # raw_data, weekdays_cells_data = els.laundry_bookings_fetch(session, fetching_for)
-                # bookings = parse_bookings(fetching_for, raw_data, weekdays_cells_data)
-                # active_bookings = list(filter(is_available, bookings))
-                # logger.info(f"Active bookings for #{fetching_for} is {len(active_bookings)} of {len(bookings)}")
+                logger.info(f"pointcut=[SUCCESS] Active bookings for #{fetching_for} is {len(active_bookings)} of {len(bookings)}")
                 # db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
-                # #### Next 7 days bookings
-                # raw_data, weekdays_cells_data = els.laundry_bookings_fetch_next_page(session)
-                # bookings = parse_bookings(fetching_for, raw_data, weekdays_cells_data)
-                # active_bookings = list(filter(is_available, bookings))
-                # logger.info(f"Active bookings for #{fetching_for} is {len(active_bookings)} of {len(bookings)}")
-                # db_ids = [db.create_or_update(booking.id, date.today(), booking.is_available) for booking in bookings]
-
-                # ## Sleep
-                # time.sleep(THREAD_SLEEP)
-                if left <= 0:
-                    break
-                else:
-                    left -= 1
         except KeyboardInterrupt:
             logger.info("Interrupted")
         
