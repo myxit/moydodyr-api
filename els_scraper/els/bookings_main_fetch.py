@@ -1,6 +1,6 @@
 from typing_extensions import deprecated
 from bs4 import BeautifulSoup
-from moydodyr_api.els.elssession import ELSSession
+from els.elssession import ELSSession
 
 url = '/Booking/BookingMain.aspx'
 

@@ -1,7 +1,6 @@
 import re
 from bs4 import BeautifulSoup
-from moydodyr_api.els import page_checkers
-from moydodyr_api.els.elssession import ELSSession
+from .elssession import ELSSession
 from .types import AvailableLaundries 
 
 laundry3_request_payload = {

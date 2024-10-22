@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "moydodyr_api"
-version = "0.1.0"
+version = "0.0.1"
 description = ""
-authors = ["Ia R1pko <nr1pko35@duck.com>"]
+authors = ["Ja R1pko <nr1pko35@duck.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -13,6 +13,10 @@ pydantic = "^2.7.1"
 pydantic-settings = "^2.2.1"
 beautifulsoup4 = "^4.12.3"
 peewee = "^3.17.5"
+fastapi = "^0.115.2"
+uvicorn = {extras = ["standard"], version = "^0.32.0"}
+apscheduler = "^3.10.4"
+
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.2.0"
@@ -23,3 +27,6 @@ freezegun = "^1.5.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+dev = "uvicorn moydodyr_api.app:app --reload"

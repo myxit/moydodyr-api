@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
-from moydodyr_api.els import page_checkers
-from moydodyr_api.els.elssession import ELSSession
+from . import page_checkers, ELSSession
   
 
 def run(session: ELSSession):

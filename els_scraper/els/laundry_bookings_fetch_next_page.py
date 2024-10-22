@@ -1,7 +1,6 @@
 import re
 from bs4 import BeautifulSoup
-from moydodyr_api.els import page_checkers
-from moydodyr_api.els.elssession import ELSSession
+from . import ELSSession
 
 onclick_pattern = re.compile(r"('BookPass\d,\d,\d,'),('\d,\d,\d,')")
 

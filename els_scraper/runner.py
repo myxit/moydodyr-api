@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 import logging
 import logging.config
-import els
-import db
-from config import get_settings
-from booking_parser import parse_bookings
-from moydodyr_api.booking import AvailableLaundries
+import els_scraper.els as els
+import els_scraper.db as db
+from els_scraper.config import get_settings
+from els_scraper.booking_parser import parse_bookings
+from els_scraper.booking import AvailableLaundries
 import traceback
 
 logging.config.fileConfig('logger.conf', disable_existing_loggers=False)

@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 import re
-from moydodyr_api.booking import Booking, AvailableLaundries
+from .booking import Booking, AvailableLaundries
 
 # Define the regular expression pattern
 pattern_element_onclick_str = r"'(BookPass\d,\d,\d,)','(\d,\d,\d,)'"

@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from moydodyr_api.els.elssession import ELSSession
+from . import ELSSession
   
 
 def run(session: ELSSession, username: str, password: str):

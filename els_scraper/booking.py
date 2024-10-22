@@ -1,6 +1,6 @@
 from datetime import date
 
-from moydodyr_api.els.types import AvailableLaundries
+from .els.types import AvailableLaundries
 
 
 class Booking:
